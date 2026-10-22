@@ -1,0 +1,11 @@
+*.csv
+*.zip
+__pycache__/
+.venv/
+.ipynb_checkpoints/
+.DS_Store
+.env
+data/processed/
+models/
+catboost_info/
+!reports/model_benchmark_extra.csv
