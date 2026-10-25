@@ -1,7 +1,7 @@
 # Fragrance Shelf-Life Stability
 
-Root-cause analysis and predictive model of fragrance shelf-life stability from production sensor data
-(259,200 batches, 5 plants, April–June 2023). Take-home case for the Symrise Data & AI Graduate Program.
+Root-cause analysis and predictive model of fragrance shelf-life stability from production sensor data.
+Take-home case for the Symrise Data & AI Graduate Program.
 
 The case statement is in [docs/usecase_statement.md](docs/usecase_statement.md).
 
@@ -50,7 +50,7 @@ Python 3.11 or newer. From the repository root:
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# 2. Unit tests (cleaning rules, root-cause helpers, model)
+# 2. Optional: unit tests, a quick check of the code and the installation (~3 seconds)
 pytest
 
 # 3. The analysis, in order
