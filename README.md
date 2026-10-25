@@ -43,18 +43,36 @@ tests/             unit tests (cleaning rules, root-cause helpers, model)
 ```
 
 ## How to run
+Python 3.11 or newer. From the repository root:
+
 ```bash
+# 1. Environment
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-pytest                                     # unit tests
-jupyter lab                                # then run notebooks/01 → 04 in order
-```
-The notebooks are committed with their outputs, so they can be read without running them. Notebook 02 writes
-`data/processed/batches_clean.parquet`, which notebooks 03 and 04 read. Notebook 04 retrains all candidate models
-and takes about 5 minutes. Random seeds are fixed.
 
-To rebuild the Parquet file from the original CSV:
-`python3 scripts/convert_to_parquet.py path/to/fragrance_stability_dataset.csv`
+# 2. Unit tests (cleaning rules, root-cause helpers, model)
+pytest
+
+# 3. The analysis, in order
+cd notebooks
+jupyter nbconvert --to notebook --execute --inplace 01_data_audit.ipynb      # audit of the raw data
+jupyter nbconvert --to notebook --execute --inplace 02_cleaning.ipynb        # writes data/processed/batches_clean.parquet
+jupyter nbconvert --to notebook --execute --inplace 03_eda_root_cause.ipynb  # root-cause analysis
+jupyter nbconvert --to notebook --execute --inplace 04_model.ipynb           # model, intervals, explanations
+cd ..
+```
+Or open them with `jupyter lab` and run 01 → 04 in order. Every figure in `reports/figures/` is written by
+these notebooks. The whole run takes about 15 minutes (notebook 04 retrains all candidate models); random seeds
+are fixed, so the results are identical on every run.
+
+Optional steps:
+- `python3 scripts/benchmark_other_models.py` (after notebook 02): re-runs the comparison with other model
+  families (XGBoost, CatBoost, a neural network…) and rewrites `reports/model_benchmark_extra.csv`, which
+  notebook 04 reads. The file is committed, so this step is only needed to reproduce it (about 5 minutes).
+- `python3 scripts/convert_to_parquet.py path/to/fragrance_stability_dataset.csv`: rebuilds
+  `data/raw/fragrance_stability.parquet` from the original CSV.
+
+The notebooks are committed with their outputs, so they can also be read without running anything.
 
 ## Where to look
 - The four notebooks, in order: each section ends with its conclusions.
